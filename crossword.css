@@ -1,0 +1,95 @@
+body
+{
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 18px;
+}
+
+#board {
+  padding-left: 200px;
+  padding-top: 150px;
+}
+.cell_input {
+  width: 14px;
+  text-align: center;
+  padding: 4px 2px 4px 2px;
+  margin: 1px;
+  border: 1px none #AAA;
+  -opacity: 0.9;
+}
+.cell {
+  display: inline-block;
+  width: 39px;
+  height: 45px;
+  background: url('hex.png');
+  margin-right: -1px;
+  margin-left: -1px;
+  margin-bottom: -18px;
+  margin-top: -8px;
+  padding-top: 8px;
+  background-repeat: no-repeat;
+}
+.rule_y {
+}
+.rule_x {
+  display: inline-block;
+  transform:rotate(-60deg);
+  -ms-transform:rotate(-60deg); /* IE 9 */
+  -moz-transform:rotate(-60deg); /* Firefox */
+  -webkit-transform:rotate(-60deg); /* Safari and Chrome */
+  -o-transform:rotate(-60deg); /* Opera */
+}
+
+.rule_z {
+  transform:rotate(60deg);
+  -ms-transform:rotate(60deg); /* IE 9 */
+  -moz-transform:rotate(60deg); /* Firefox */
+  -webkit-transform:rotate(60deg); /* Safari and Chrome */
+  -o-transform:rotate(60deg); /* Opera */
+}
+
+.top, .bottom {
+  width: 37px;
+}
+.leftside {
+  right: 5px;
+  top: 3px;
+}
+.side {
+  left: 2px;
+  top: 4px;
+}
+.rule.side {
+  width: 37px;
+}
+.top {
+}
+.bottom {
+  top: 6px;
+}
+
+.rule_parent {
+  position: relative;
+  display: inline-block;
+  height: 24px;
+  border-color: red;
+}
+.rule {
+  position: absolute;
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.match {
+  color: #0C0;
+}
+.nomatch {
+  color: #C00;
+}
+
+span {
+  -border: 1px dotted black;
+}
+
+#debug {
+  display: none;
+}

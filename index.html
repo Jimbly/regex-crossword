@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>RegEx Crossword</title>
+    <!-- meta http-equiv="refresh" content="1" -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
+    <script src="crossword.js"></script>
+    <link rel="stylesheet" type="text/css" href="crossword.css">
+  </head>
+  <body>
+    It's a crossword puzzle where you need to fill in the hexes with character sequences, so that they match the regular expressions listed around the edges.<br/>
+    The individual clues will turn <span class="match">green</span> when satisfied, <span class="nomatch">red</span> when not.<br/>
+    <input type="button" value="Reset" id="reset"></input>
+    <table id="board_table">
+      <tr><td id="board" align="center">
+        <span id="cell"><input type="text" class="cell_input" value="W"/></span><span id="cell"><input type="text" class="cell_input" value="W"/></span><span id="cell"><input type="text" class="cell_input" value="W"/></span>
+        <br/>
+        <span id="cell"><input type="text" class="cell_input" value="W"/></span><span id="cell"><input type="text" class="cell_input" value="W"/></span><span id="cell"><input type="text" class="cell_input" value="W"/></span><span id="cell"><input type="text" class="cell_input" value="W"/></span>
+        <br/>
+        <span id="cell"><input type="text" class="cell_input" value="W"/></span><span id="cell"><input type="text" class="cell_input" value="W"/></span><span id="cell"><input type="text" class="cell_input" value="W"/></span>
+      </td>
+    </table>
+
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+
+    Original puzzle from: <a href="http://www.i-programmer.info/news/144-graphics-and-games/5450-can-you-do-the-regular-expression-crossword.html">http://www.i-programmer.info/news/144-graphics-and-games/5450-can-you-do-the-regular-expression-crossword.html</a><br/>
+    <div id="debug"></div>
+  </body>
+</html>
