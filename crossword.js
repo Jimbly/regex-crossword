@@ -66,7 +66,11 @@ function loadData() {
 }
 
 function saveData() {
-  localStorage['xword_data_' + board_data.name] = JSON.stringify(user_data);
+  try {
+    localStorage['xword_data_' + board_data.name] = JSON.stringify(user_data);
+  } catch (e) {
+    // No localstorage
+  }
 }
 
 function rowSize(ii) {
