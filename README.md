@@ -10,3 +10,7 @@ TODO List
 * Auto-check against known solution
 * Allow choosing between multiple crosswords puzzles
 * Allow users to save their own puzzles and load other people's
+* Track time spent solving puzzle
+* Rotate buttons
+* Undo/redo
+
