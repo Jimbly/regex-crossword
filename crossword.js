@@ -166,9 +166,42 @@ function checkRules() {
   $('#debug').html(debug.join('<br/>'));
 }
 
-function onInputChange() {
-  getData();
-  checkRules();
+function checkArrowKeys(elem, event) {
+  if (event) {
+    var di = 0, dj = 0;
+    if (event.which == 37) { // left arrow
+      dj = -1;
+    } else if (event.which == 38) { // up arrow
+      di = -1;
+    } else if (event.which == 39) { // right arrow
+      dj = 1;
+    } else if (event.which == 40) { // down arrow
+      di = 1;
+    }
+    if (di != 0 || dj != 0) {
+      var matches = $(elem).attr('id').match(/\d+/g);
+      var i = parseInt(matches[0]) + di;
+      var j = parseInt(matches[1]) + dj;
+      if (i < size) {
+        // move along same diagonal in top and bottom half
+        if (di == 1 && i > size/2) {
+          j--;
+        } else if (di == -1 && i > size/2 - 1) {
+          j++;
+        }
+      }
+      $('#cell_' + i + '_' + j).focus().select();
+      return true;
+    }
+  }
+  return false;
+}
+
+function onInputChange(event) {
+  if (!checkArrowKeys(this, event)) {
+    getData();
+    checkRules();
+  }
 }
 
 function onFocus() {
