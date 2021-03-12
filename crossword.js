@@ -212,6 +212,20 @@ function onFocusCell() {
   var elem = $('#' + this.id.slice('wrap_'.length));
   elem.focus();
   elem.select();
+
+  // Deselect all previous highlighted rules
+  $('.highlighted').removeClass('highlighted');
+
+  // Get position of current cell
+  const pos_match = this.id.match(/wrap_cell_(\d+)_(\d+)/);
+  const y = parseInt(pos_match[1], 10);
+  const x = parseInt(pos_match[2], 10);
+  const z = y < 6 ? x - y + 6 : x;
+  
+  // Set the relevant rules as highlighted
+  $('#rule_x_' + x).addClass('highlighted');
+  $('#rule_y_' + y).addClass('highlighted');
+  $('#rule_z_' + z).addClass('highlighted');
 }
 
 function reset() {
