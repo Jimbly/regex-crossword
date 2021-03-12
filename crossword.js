@@ -6,7 +6,7 @@ var board_data = {
     '[^X]*(DN|TE|NI)'
     ,'[RONMHC]*I[RONMHC]*'
     ,'.*(..)\\1P+'
-    ,'(E|RC|NM)*'
+    ,'(E|CR|NM)*'
     ,'([^MC]|MM|CC)*'
     ,'R?(CR)*MC[MA]*'
     ,'.*'
