@@ -221,9 +221,11 @@ function onFocusCell() {
 
   // Get position of current cell
   var pos_match = this.id.match(/cell_(\d+)_(\d+)/);
-  var y = parseInt(pos_match[1], 10);
-  var x = parseInt(pos_match[2], 10);
-  var z = y < 6 ? x - y + 6 : x;
+  var a = parseInt(pos_match[1], 10);
+  var b = parseInt(pos_match[2], 10);
+  var y = a;
+  var x = y > 6 ? b + a - 6 : b;
+  var z = y < 6 ? b - a + 6 : b;
 
   // Set the relevant rules as highlighted
   $('#rule_x_' + x).addClass('highlighted');
