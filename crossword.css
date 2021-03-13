@@ -119,7 +119,7 @@ span {
 }
 .active-rule:before, .active-rule:after {
   content: '/';
-  color: #333;
+  color: #000;
 }
 
 .cell_input:focus {

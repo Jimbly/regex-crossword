@@ -290,15 +290,16 @@ function init() {
   $('.cell').click(onFocusCell);
   $('#reset').click(reset);
   onInputChange();
-  function cleanupLoop() {
+  function updateHighlights() {
     active_cell = $(".cell_input:focus");
     if (active_cell.length > 0) {
-      // console.log(active_cell[0].id);
       highlightRules(active_cell[0].id);
+    } else {
+      $(".active-rule").removeClass("active-rule");
     }
   }
   setInterval(() => {
-    cleanupLoop();
+    updateHighlights();
   }, 500);
 }
 
