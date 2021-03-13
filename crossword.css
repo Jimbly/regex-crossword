@@ -80,7 +80,7 @@ body
   position: relative;
   display: inline-block;
   height: 24px;
-  border-color: #5D3A9B;
+  border-color: #E66100;
 }
 .rule {
   position: absolute;
@@ -90,11 +90,11 @@ body
 }
 
 .match {
-  color: #E66100;
+  color: #5D3A9B;
   font-weight: bold;
 }
 .nomatch {
-  color: #5D3A9B;
+  color: #E66100;
 }
 .highlighted {
   text-decoration: underline;
