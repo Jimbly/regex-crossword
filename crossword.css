@@ -5,8 +5,9 @@ body
 }
 
 #board {
-  padding-left: 200px;
-  padding-top: 150px;
+  padding-left: 100px;
+  padding-top: 140px;
+  min-width: 610px;
 }
 .cell_input,
 .rule {
@@ -32,7 +33,7 @@ body
   margin-right: -1px;
   margin-left: -1px;
   margin-bottom: -18px;
-  margin-top: -10px;
+  margin-top: -12px;
   padding-top: 8px;
   background-repeat: no-repeat;
 }
@@ -60,7 +61,7 @@ body
 }
 .leftside {
   right: 5px;
-  top: 3px;
+  top: -1px;
 }
 .side {
   left: 2px;
@@ -69,11 +70,20 @@ body
 .rule.side {
   width: 37px;
 }
+.side.rule_x {
+  left: 0px;
+  top: -6px;
+}
+.side.rule_z {
+  left: 3px;
+  top: 3px;
+}
 .top {
   bottom: 6px;
 }
 .bottom {
-  top: 6px;
+  top: 3px;
+  left: 12px;
 }
 
 .rule_parent {
@@ -90,10 +100,10 @@ body
 }
 
 .match {
-  color: #0C0;
+  color: #080;
 }
 .nomatch {
-  color: #C00;
+  color: #B00;
 }
 
 span {
@@ -102,4 +112,17 @@ span {
 
 #debug {
   display: none;
+}
+
+.active-rule {
+  font-weight: 700;
+}
+.active-rule:before, .active-rule:after {
+  content: '/';
+  color: #333;
+}
+
+.cell_input:focus {
+  border-radius: 50px;
+  background: #eee;
 }

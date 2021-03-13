@@ -205,7 +205,26 @@ function onInputChange(event) {
 }
 
 function onFocus() {
+  highlightRules(this.id);
   $(this).select();
+}
+
+function highlightRules(id) { 
+  cell_row = id.split('_')[1] * 1; 
+  cell_col = id.split('_')[2] * 1;
+  var rulex, ruley, rulez = -1;
+  ruley = cell_row;
+  if (cell_row < 7) {
+    rulex = cell_col;
+    rulez = cell_col - cell_row + 6;
+  } else {
+    rulex = cell_col + cell_row - 6;
+    rulez = cell_col;
+  }
+  $(".active-rule").removeClass('active-rule');
+  if (rulex > -1) $("#rule_x_"+rulex).addClass('active-rule');
+  $("#rule_y_"+ruley).addClass('active-rule');
+  if (rulez > -1) $("#rule_z_"+rulez).addClass('active-rule');
 }
 
 function onFocusCell() {
@@ -271,6 +290,16 @@ function init() {
   $('.cell').click(onFocusCell);
   $('#reset').click(reset);
   onInputChange();
+  function cleanupLoop() {
+    active_cell = $(".cell_input:focus");
+    if (active_cell.length > 0) {
+      // console.log(active_cell[0].id);
+      highlightRules(active_cell[0].id);
+    }
+  }
+  setInterval(() => {
+    cleanupLoop();
+  }, 500);
 }
 
 $(init);
