@@ -115,9 +115,9 @@ function checkRules() {
 
   function check(str, axis, idx) {
     var rule = board_data[axis][idx];
-    var regex = new RegExp('^' + rule + '$');
+    var regex = new RegExp(rule);
     var match = str.match(regex);
-    if (match) {
+    if (match && match[0] === str) {
       $('#rule_' + axis + '_' + idx).removeClass('nomatch');
       $('#rule_' + axis + '_' + idx).addClass('match');
     } else {
