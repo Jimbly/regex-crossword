@@ -95,6 +95,10 @@ body
 .nomatch {
   color: #C00;
 }
+.highlighted {
+  font-weight: bold;
+  text-decoration: underline;
+}
 
 span {
   -border: 1px dotted black;

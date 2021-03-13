@@ -208,10 +208,27 @@ function onFocus() {
   $(this).select();
 }
 
-function onFocusCell() {
+function onClickCell() {
   var elem = $('#' + this.id.slice('wrap_'.length));
   elem.focus();
   elem.select();
+
+}
+
+function onFocusCell() {
+  // Deselect all previous highlighted rules
+  $('.highlighted').removeClass('highlighted');
+
+  // Get position of current cell
+  var pos_match = this.id.match(/cell_(\d+)_(\d+)/);
+  var y = parseInt(pos_match[1], 10);
+  var x = parseInt(pos_match[2], 10);
+  var z = y < 6 ? x - y + 6 : x;
+
+  // Set the relevant rules as highlighted
+  $('#rule_x_' + x).addClass('highlighted');
+  $('#rule_y_' + y).addClass('highlighted');
+  $('#rule_z_' + z).addClass('highlighted');
 }
 
 function reset() {
@@ -268,7 +285,8 @@ function init() {
   $('.cell_input').change(onInputChange);
   $('.cell_input').keyup(onInputChange);
   $('.cell_input').click(onFocus);
-  $('.cell').click(onFocusCell);
+  $('.cell').click(onClickCell);
+  $('.cell_input').focus(onFocusCell);
   $('#reset').click(reset);
   onInputChange();
 }
