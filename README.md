@@ -5,7 +5,7 @@ Implementation of a RegExp crossword.
 
 View the current version at http://jimbly.github.com/regex-crossword/
 
-Original puzzle written by Dan Gulotta for the 2013 MIT Mystery Hunt: https://web.mit.edu/puzzle/www/2013/coinheist.com/rubik/a_regular_crossword/
+Original puzzle written by Dan Gulotta for the 2013 MIT Mystery Hunt: https://web.mit.edu/puzzle/www/2013/coinheist.com/rubik/a_regular_crossword/ popularized through http://www.i-programmer.info/news/144-graphics-and-games/5450-can-you-do-the-regular-expression-crossword.html
 
 TODO List
 =========
