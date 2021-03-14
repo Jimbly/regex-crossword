@@ -265,6 +265,29 @@ function reset() {
   location.reload();
 }
 
+function editRule(axis, idx) {
+    var rule_span = document.getElementById('rule_' + axis + '_' + idx);
+    rule_span.innerHTML = ruleInput(axis,idx);
+}
+
+function updateRule(axis, idx, value) {
+    board_data[axis][idx] = value;
+    var rule_span = document.getElementById('rule_' + axis + '_' + idx);
+    rule_span.innerHTML = ruleDisplay(axis, idx);
+    checkRules();
+}
+
+function ruleInput(axis, idx) {
+    var form = '<form action="#" onsubmit="updateRule(\'' + axis + '\', ' + idx + ', rule.value);">'
+    return form + '<input name="rule" value="' + board_data[axis][idx] + '"/></form>';
+}
+
+
+function ruleDisplay(axis, idx) {
+    var span = '<span ondblclick="editRule(\'' + axis + '\', ' + idx + ')">';
+    return span + board_data[axis][idx] + '</span>';
+}
+
 function init() {
   loadData();
 
@@ -276,7 +299,8 @@ function init() {
     var data = board_data[axis][idx];
     //data = styleinner + '_' + idx;
     row.push('<span class="rule_parent ' + styleboth + '"><span class="rule '
-      + styleboth + ' ' + styleinner + '" id="rule_' + axis + '_' + idx + '">' + data + '</span></span>');
+      + styleboth + ' ' + styleinner + '" id="rule_' + axis + '_' + idx
+      + '">'+ruleDisplay(axis, idx)+'</span></span>');
   }
   for (ii = 0; ii <= mid; ++ii) {
     addRule('top', 'x', ii);
