@@ -49,10 +49,21 @@ var board_data = {
   ],
 };
 
-var mid = (board_data.size - 1) / 2;
-var size = board_data.size;
+function load_puzzle(data) {
+    return JSON.parse(atob(data));
+}
 
+function save_puzzle(data) {
+    // return a url to this puzzle
+    var base_url = window.location.href.split('?')[0];
+    var puzzle_data = btoa(JSON.stringify(board_data));
+    return base_url + "?puzzle=" + puzzle_data;
+}
+
+var mid;
+var size;
 var user_data;
+var use_editor;
 
 function loadData() {
   user_data = undefined;
@@ -266,30 +277,54 @@ function reset() {
 }
 
 function editRule(axis, idx) {
-    var rule_span = document.getElementById('rule_' + axis + '_' + idx);
-    rule_span.innerHTML = ruleInput(axis,idx);
+  var rule_span = document.getElementById('rule_' + axis + '_' + idx);
+  rule_span.innerHTML = ruleInput(axis,idx);
 }
 
 function updateRule(axis, idx, value) {
-    board_data[axis][idx] = value;
-    var rule_span = document.getElementById('rule_' + axis + '_' + idx);
-    rule_span.innerHTML = ruleDisplay(axis, idx);
-    checkRules();
+  if (value == '') {
+    value = '.*';
+  }
+  board_data[axis][idx] = value;
+  var rule_span = document.getElementById('rule_' + axis + '_' + idx);
+  rule_span.innerHTML = ruleDisplay(axis, idx);
+  checkRules();
 }
 
 function ruleInput(axis, idx) {
-    var form = '<form action="#" onsubmit="updateRule(\'' + axis + '\', ' + idx + ', rule.value);">'
-    return form + '<input name="rule" value="' + board_data[axis][idx] + '"/></form>';
+  var form = '<form action="#" onsubmit="updateRule(\'' + axis + '\', ' + idx + ', rule.value);">'
+  return form + '<input name="rule" value="' + board_data[axis][idx] + '"/></form>';
 }
 
-
 function ruleDisplay(axis, idx) {
-    var span = '<span ondblclick="editRule(\'' + axis + '\', ' + idx + ')">';
-    return span + board_data[axis][idx] + '</span>';
+  var open = '';
+  var close = '';
+  if (use_editor) {
+    open = '<span ondblclick="editRule(\'' + axis + '\', ' + idx + ');">';
+    close = '</span>';
+  }
+  return open + board_data[axis][idx] + close;
 }
 
 function init() {
   loadData();
+  
+  var url_params = new URLSearchParams(window.location.search);
+  if (url_params.has('puzzle')) {
+    board_data = load_puzzle(url_params.get('puzzle'));
+  }
+  use_editor = url_params.has('edit');
+
+  mid = (board_data.size - 1) / 2;
+  size = board_data.size;
+
+  var edit_area = document.getElementById('editor');
+  if (use_editor) {
+    edit_area.innerHTML = '<form><input type=button value="create link to this puzzle" onclick="link.value=save_puzzle();">'
+                          +'<input type=text name=link></form>';
+  } else {
+    edit_area.innerHTML = '<a href="' + save_puzzle() + '&edit">click to edit this puzzle</a><br/>';
+  }
 
   var lines = [];
   var ii, jj;
