@@ -23,6 +23,10 @@ body
   outline: none;
   -opacity: 0.9;
 }
+.highlighted-cell {
+  border: 1px dashed;
+  border-radius: 100%;
+}
 .cell {
   overflow: hidden;
   display: inline-block;
