@@ -25,6 +25,7 @@ body
 }
 .highlighted-cell {
   border: 1px dashed;
+  border-color: rgba(0,0,0, 0.5);
   border-radius: 100%;
 }
 .cell {
