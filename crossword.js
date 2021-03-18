@@ -49,14 +49,14 @@ var board_data = {
   ],
 };
 
-function load_puzzle(data) {
+function loadPuzzle(data) {
     return JSON.parse(atob(data));
 }
 
-function save_puzzle(data) {
+function savePuzzle(data) {
     // return a url to this puzzle
     var base_url = window.location.href.split('?')[0];
-    var puzzle_data = btoa(JSON.stringify(board_data));
+    var puzzle_data = btoa(JSON.stringify(data));
     return base_url + "?puzzle=" + puzzle_data;
 }
 
@@ -306,25 +306,39 @@ function ruleDisplay(axis, idx) {
   return open + board_data[axis][idx] + close;
 }
 
+function getSearchParams(){
+  var p={};
+  location.search.replace(
+    /[?&]+([^=&]+)=([^&]*)/gi,
+    function(s,k,v) { p[k]=v; }
+  )
+  return p;
+}
+
+function blankRules(n) {
+  return Array.from({length:n}, i => '.*');
+}
+
 function init() {
   loadData();
   
-  var url_params = new URLSearchParams(window.location.search);
-  if (url_params.has('puzzle')) {
-    board_data = load_puzzle(url_params.get('puzzle'));
+  var url_params = getSearchParams();
+  use_editor = 'edit' in url_params;
+  if ('puzzle' in url_params) {
+    board_data = loadPuzzle(url_params['puzzle']);
+  } else if ('new_size' in url_params) {
+    var sz = url_params['new_size'];
+    board_data = {
+      size: sz,
+      name: url_params['new_name'],
+      x: blankRules(sz),
+      y: blankRules(sz),
+      z: blankRules(sz)
+    };
   }
-  use_editor = url_params.has('edit');
 
   mid = (board_data.size - 1) / 2;
   size = board_data.size;
-
-  var edit_area = document.getElementById('editor');
-  if (use_editor) {
-    edit_area.innerHTML = '<form><input type=button value="create link to this puzzle" onclick="link.value=save_puzzle();">'
-                          +'<input type=text name=link></form>';
-  } else {
-    edit_area.innerHTML = '<a href="' + save_puzzle() + '&edit">click to edit this puzzle</a><br/>';
-  }
 
   var lines = [];
   var ii, jj;
@@ -375,6 +389,18 @@ function init() {
   $('.cell').click(onClickCell);
   $('.cell_input').focus(onFocusCell);
   $('#reset').click(reset);
+  if (use_editor) {
+    $('.no_edit').hide();
+    $('#make_link').click( () => {
+      $('#puzzle_link').attr('value', savePuzzle(board_data));
+    });
+  } else {
+    $('.edit').hide();
+    $('.new_parameters').hide();
+    $('#new_puzzle').click( () => {
+      $('.new_parameters').show();
+    });
+  }
   onInputChange();
 }
 

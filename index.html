@@ -13,8 +13,42 @@
     The colors were chosen to be accessible by people with color blindness.
     Note that the regex must be a full match, and empty cells are treated as spaces.<br/>
     <table><tr>
-        <td><input type="button" value="Reset" id="reset"></input></td>
-        <td id="editor"></td>
+      <td><input type="button" value="Reset" id="reset"></input></td>
+        <td id="editor" align='right'>
+          <span class="no_edit">
+            <form id='new_puzzle' method='GET'>
+              <input type="button" value="New Puzzle" id='new_puzzle' />
+              <span class="new_parameters">
+                &nbsp;&nbsp;Size:
+                <select name='new_size'>
+                  <option value="1">1</option>
+                  <option value="3">3</option>
+                  <option value="5">5</option>
+                  <option value="7">7</option>
+                  <option value="9">9</option>
+                  <option value="11">11</option>
+                  <option value="13" selected>13</option>
+                  <option value="15">15</option>
+                  <option value="17">17</option>
+                  <option value="19">19</option>
+                  <option value="21">21</option>
+                  <option value="23">23</option>
+                  <option value="25">25</option>
+                  <option value="27">27</option>
+                  <option value="29">29</option>
+                </select>
+                <input type='hidden' name='edit'/>
+                &nbsp;&nbsp;Name:
+                <input type='text' name='new_name'/>
+                &nbsp;&nbsp;<input type='submit' value='go'/>
+              </span>
+            </form>
+          </span>
+          <span class="edit">
+            <input type="button" value="Link to this Puzzle" id="make_link"o/>
+            <input type="text" width=100 id="puzzle_link"/>
+          </span>
+      </td>
     </tr></table>
     <table id="board_table">
       <tr><td id="board" align="center">
