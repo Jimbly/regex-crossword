@@ -224,13 +224,39 @@ function onFocusCell() {
   var a = parseInt(pos_match[1], 10);
   var b = parseInt(pos_match[2], 10);
   var y = a;
-  var x = y > 6 ? b + a - 6 : b;
-  var z = y < 6 ? b - a + 6 : b;
+  var x = y > mid ? b + a - mid : b;
+  var z = y < mid ? b - a + mid : b;
 
   // Set the relevant rules as highlighted
   $('#rule_x_' + x).addClass('highlighted');
   $('#rule_y_' + y).addClass('highlighted');
   $('#rule_z_' + z).addClass('highlighted');
+
+  $('.highlighted-cell').removeClass('highlighted-cell');
+
+  function highlightCell(a, b) {
+    $('#cell_' + a + '_' + b).addClass('highlighted-cell');
+  }
+
+  for (var bb = 0; bb < rowSize(a); ++bb) {
+    highlightCell(a, bb);
+  }
+
+  var bb = x;
+  for (var aa = 0; aa < size; ++aa) {
+    if (aa > mid) {
+      --bb;
+    }
+    highlightCell(aa, bb);
+  }
+
+  var bb = z;
+  for (var aa = size - 1; aa >= 0; --aa) {
+    if (aa < mid) {
+      --bb;
+    }
+    highlightCell(aa, bb);
+  }
 }
 
 function reset() {
