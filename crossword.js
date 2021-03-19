@@ -273,7 +273,8 @@ function onFocusCell() {
 function reset() {
   user_data.rows = [];
   saveData();
-  location.reload();
+  $('.cell_input').val('');
+  checkRules();
 }
 
 function editRule(axis, idx) {
