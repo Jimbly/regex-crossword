@@ -1,53 +1,8 @@
-
-var board_data = {
-  size: 13,
-  name: 'original',
-  x: [
-    '[^X]*(DN|TE|NI)'
-    ,'[RONMHC]*I[RONMHC]*'
-    ,'.*(..)\\1P+'
-    ,'(E|RC|NM)*'
-    ,'([^MC]|MM|CC)*'
-    ,'R?(CR)*MC[MA]*'
-    ,'.*'
-    ,'.*CDD.*RRP.*'
-    ,'(XHH|[^XH])*'
-    ,'([^CME]|ME)*'
-    ,'.*RXO.*'
-    ,'.*LR.*RL.*'
-    ,'.*EU.*ES.*'
-  ],
-  y: [
-    '.*H.*H.*'
-    ,'(DI|NS|TH|OM)*'
-    ,'F.*[AO].*[AO].*'
-    ,'(O|RHH|MM)*'
-    ,'.*'
-    ,'C*MC(CCC|MM)*'
-    ,'[^C]*[^R]*III.*'
-    ,'(...?)\\1*'
-    ,'([^X]|XCC)*'
-    ,'(RR|HHH)*.?'
-    ,'N.*X.X.X.*E'
-    ,'R*D*M*'
-    ,'.(C|HH)*'
-  ],
-  z: [
-    '.*H.*V.*G.*'
-    ,'[RC]*'
-    ,'M*XEX.*'
-    ,'.*MCC.*DD.*'
-    ,'.*X.*RCHX.*'
-    ,'.*(.)(.)(.)(.)\\4\\3\\2\\1.*'
-    ,'(NI|ES|IH).*'
-    ,'[^C]*MMM[^C]*'
-    ,'.*(.)X\\1C\\1.*'
-    ,'[ROMEA]*HO[UMIEC]*'
-    ,'(XR|[^R])*'
-    ,'[^M]*M[^M]*'
-    ,'(S|MM|HHH)*'
-  ],
-};
+var board_data;
+var mid;
+var size;
+var user_data;
+var use_editor;
 
 function loadPuzzle(data) {
     return JSON.parse(atob(data));
@@ -59,11 +14,6 @@ function savePuzzle(data) {
     var puzzle_data = btoa(JSON.stringify(data));
     return base_url + "?puzzle=" + puzzle_data;
 }
-
-var mid;
-var size;
-var user_data;
-var use_editor;
 
 function loadData() {
   user_data = undefined;
@@ -321,8 +271,12 @@ function blankRules(n) {
 }
 
 function init() {
-  loadData();
-  
+  for (const [name, board] of Object.entries(all_boards)) {
+    var option = $('<option>', {value: name, text: name});
+    $('#puzzle_picker').append(option);
+    board['name'] = name;
+  }
+
   var url_params = getSearchParams();
   use_editor = 'edit' in url_params;
   if ('puzzle' in url_params) {
@@ -331,13 +285,20 @@ function init() {
     var sz = url_params['new_size'];
     board_data = {
       size: sz,
+      author: url_params['new_author'],
       name: url_params['new_name'],
       x: blankRules(sz),
       y: blankRules(sz),
       z: blankRules(sz)
     };
+  } else if ('puzzle_name' in url_params) {
+    board_data = all_boards[url_params['puzzle_name']];
+    if ('puzzle_name' != 'original') {
+      $('.original_solution').hide();
+      $('#custom_puzzle_credit').html("puzzle by " + board_data['author'] + "</br>");
+    }
   }
-
+  loadData();
   mid = (board_data.size - 1) / 2;
   size = board_data.size;
 

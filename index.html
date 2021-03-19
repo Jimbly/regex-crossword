@@ -4,10 +4,12 @@
     <title>RegEx Crossword</title>
     <!-- meta http-equiv="refresh" content="1" -->
     <script src="jquery.1.6.1.min.js"></script>
+    <script src="boards.js"></script>
     <script src="crossword.js"></script>
     <link rel="stylesheet" type="text/css" href="crossword.css">
   </head>
   <body>
+    <script>/*workaround for ff bug 1404468*/</script>
     It's a crossword puzzle where you need to fill in the hexes with character sequences, so that they match the regular expressions listed around the edges.<br/>
     The individual clues will turn <span class="match">bold purple</span> when satisfied, <span class="nomatch">orange</span> when not, and <span class="highlighted">underlined</span> when active.<br />
     The colors were chosen to be accessible by people with color blindness.
@@ -41,13 +43,15 @@
                 <input type='hidden' name='edit'/>
                 &nbsp;&nbsp;Name:
                 <input type='text' name='new_name'/>
+                &nbsp;&nbsp;Author:
+                <input type='text' name='new_author'/>
                 &nbsp;&nbsp;<input type='submit' value='go'/>
               </span>
             </form>
           </span>
           <span class="edit">
             <input type="button" value="Link to this Puzzle" id="make_link" />
-            <input type="text" width=100 id="puzzle_link"/>
+            <input type="text" width=100 id="puzzle_link" />
           </span>
       </td>
     </tr></table>
@@ -65,11 +69,18 @@
     <br/>
     <br/>
     <br/>
-
+    <form>
+      Select a puzzle:
+      <select name='puzzle_name' id='puzzle_picker'></select>
+      <input type='submit' value='go' />
+    </form>
+    </br>
     Javascript implementation by <a href="https://github.com/Jimbly">Jimb Esser</a>.  Source code available on <a href="https://github.com/Jimbly/regex-crossword">GitHub</a>, fork and add your own puzzles!<br/>
     <a href="https://web.mit.edu/puzzle/www/2013/coinheist.com/rubik/a_regular_crossword/">Original puzzle</a> written by Dan Gulotta for the 2013 MIT Mystery Hunt.<br/>
+    <span class='original_solution'>
     Solution available <a href="https://web.mit.edu/puzzle/www/2013/coinheist.com/rubik/a_regular_crossword/answer/">here</a>.
-    <br/>
+    <br/></span>
+    <span id='custom_puzzle_credit'></span></br>
     Best viewed in <a href="http://chrome.google.com">Google Chrome</a> or <a href="http://www.mozilla.org/en-US/firefox/new/">Firefox</a>.  If you are using one of these browsers, your work should be saved if you refresh the page or come back later.<br/>
     <div id="debug"></div>
   </body>
