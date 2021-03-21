@@ -267,14 +267,18 @@ function getSearchParams(){
 }
 
 function blankRules(n) {
-  return Array.from({length:n}, i => '.*');
+  blanks = []
+  for(var i = 0; i < n; i++) {
+    blanks.push('.*');
+  }
+  return blanks;
 }
 
 function init() {
-  for (const [name, board] of Object.entries(all_boards)) {
+  for (const name in all_boards) {
     var option = $('<option>', {value: name, text: name});
     $('#puzzle_picker').append(option);
-    board['name'] = name;
+    all_boards[name]['name'] = name;
   }
 
   var url_params = getSearchParams();
@@ -293,11 +297,12 @@ function init() {
     };
   } else if ('puzzle_name' in url_params) {
     board_data = all_boards[url_params['puzzle_name']];
-    if ('puzzle_name' != 'original') {
-      $('.original_solution').hide();
-      $('#custom_puzzle_credit').html("puzzle by " + board_data['author'] + "</br>");
-    }
   }
+  if (board_data['name'] != 'original') {
+    $('.original_solution').hide();
+    $('#custom_puzzle_credit').html("puzzle <b>" + board_data['name'] + "</b> by " + board_data['author'] + "</br>");
+  }
+
   loadData();
   mid = (board_data.size - 1) / 2;
   size = board_data.size;
@@ -353,13 +358,13 @@ function init() {
   $('#reset').click(reset);
   if (use_editor) {
     $('.no_edit').hide();
-    $('#make_link').click( () => {
+    $('#make_link').click(function() {
       $('#puzzle_link').attr('value', savePuzzle(board_data));
     });
   } else {
     $('.edit').hide();
     $('.new_parameters').hide();
-    $('#new_puzzle').click( () => {
+    $('#new_puzzle').click(function() {
       $('.new_parameters').show();
     });
   }
