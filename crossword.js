@@ -304,6 +304,12 @@ function init() {
     $('.original_solution').hide();
     $('#puzzle_credit').html("puzzle <b>" + board_data['name'] + "</b> by " + board_data['author']);
   }
+  
+  if (window.localStorage) {
+    $('#nolocalstorage').hide();
+  } else {
+    $('#localstorage').hide();
+  }
 
   loadData();
   mid = (board_data.size - 1) / 2;
