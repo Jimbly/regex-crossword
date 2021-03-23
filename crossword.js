@@ -275,7 +275,7 @@ function blankRules(n) {
 }
 
 function init() {
-  for (const name in all_boards) {
+  for (var name in all_boards) {
     var option = $('<option>', {value: name, text: name});
     $('#puzzle_picker').append(option);
     all_boards[name]['name'] = name;
