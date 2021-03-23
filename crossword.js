@@ -1,58 +1,19 @@
-
-var board_data = {
-  size: 13,
-  name: 'original',
-  x: [
-    '[^X]*(DN|TE|NI)'
-    ,'[RONMHC]*I[RONMHC]*'
-    ,'.*(..)\\1P+'
-    ,'(E|RC|NM)*'
-    ,'([^MC]|MM|CC)*'
-    ,'R?(CR)*MC[MA]*'
-    ,'.*'
-    ,'.*CDD.*RRP.*'
-    ,'(XHH|[^XH])*'
-    ,'([^CME]|ME)*'
-    ,'.*RXO.*'
-    ,'.*LR.*RL.*'
-    ,'.*EU.*ES.*'
-  ],
-  y: [
-    '.*H.*H.*'
-    ,'(DI|NS|TH|OM)*'
-    ,'F.*[AO].*[AO].*'
-    ,'(O|RHH|MM)*'
-    ,'.*'
-    ,'C*MC(CCC|MM)*'
-    ,'[^C]*[^R]*III.*'
-    ,'(...?)\\1*'
-    ,'([^X]|XCC)*'
-    ,'(RR|HHH)*.?'
-    ,'N.*X.X.X.*E'
-    ,'R*D*M*'
-    ,'.(C|HH)*'
-  ],
-  z: [
-    '.*H.*V.*G.*'
-    ,'[RC]*'
-    ,'M*XEX.*'
-    ,'.*MCC.*DD.*'
-    ,'.*X.*RCHX.*'
-    ,'.*(.)(.)(.)(.)\\4\\3\\2\\1.*'
-    ,'(NI|ES|IH).*'
-    ,'[^C]*MMM[^C]*'
-    ,'.*(.)X\\1C\\1.*'
-    ,'[ROMEA]*HO[UMIEC]*'
-    ,'(XR|[^R])*'
-    ,'[^M]*M[^M]*'
-    ,'(S|MM|HHH)*'
-  ],
-};
-
-var mid = (board_data.size - 1) / 2;
-var size = board_data.size;
-
+var board_data;
+var mid;
+var size;
 var user_data;
+var use_editor;
+
+function loadPuzzle(data) {
+    return JSON.parse(atob(data));
+}
+
+function savePuzzle(data) {
+    // return a url to this puzzle
+    var base_url = window.location.href.split('?')[0];
+    var puzzle_data = btoa(JSON.stringify(data));
+    return base_url + "?puzzle=" + puzzle_data;
+}
 
 function loadData() {
   user_data = undefined;
@@ -262,11 +223,91 @@ function onFocusCell() {
 function reset() {
   user_data.rows = [];
   saveData();
-  location.reload();
+  $('.cell_input').val('');
+  checkRules();
+}
+
+function editRule(axis, idx) {
+  var rule_span = document.getElementById('rule_' + axis + '_' + idx);
+  rule_span.innerHTML = ruleInput(axis,idx);
+}
+
+function updateRule(axis, idx, value) {
+  if (value == '') {
+    value = '.*';
+  }
+  board_data[axis][idx] = value;
+  var rule_span = document.getElementById('rule_' + axis + '_' + idx);
+  rule_span.innerHTML = ruleDisplay(axis, idx);
+  checkRules();
+}
+
+function ruleInput(axis, idx) {
+  var form = '<form action="#" onsubmit="updateRule(\'' + axis + '\', ' + idx + ', rule.value);">'
+  return form + '<input name="rule" value="' + board_data[axis][idx] + '"/></form>';
+}
+
+function ruleDisplay(axis, idx) {
+  var open = '';
+  var close = '';
+  if (use_editor) {
+    open = '<span ondblclick="editRule(\'' + axis + '\', ' + idx + ');">';
+    close = '</span>';
+  }
+  return open + board_data[axis][idx] + close;
+}
+
+function getSearchParams(){
+  var p={};
+  location.search.replace(
+    /[?&]+([^=&]+)=([^&]*)/gi,
+    function(s,k,v) { p[k]=v; }
+  )
+  return p;
+}
+
+function blankRules(n) {
+  blanks = []
+  for(var i = 0; i < n; i++) {
+    blanks.push('.*');
+  }
+  return blanks;
 }
 
 function init() {
+  for (var name in all_boards) {
+    var option = $('<option>', {value: name, text: name});
+    $('#puzzle_picker').append(option);
+    all_boards[name]['name'] = name;
+  }
+
+  var url_params = getSearchParams();
+  use_editor = 'edit' in url_params;
+  if ('puzzle' in url_params) {
+    board_data = loadPuzzle(url_params['puzzle']);
+  } else if ('new_size' in url_params) {
+    var sz = url_params['new_size'];
+    board_data = {
+      size: sz,
+      author: url_params['new_author'],
+      name: url_params['new_name'],
+      x: blankRules(sz),
+      y: blankRules(sz),
+      z: blankRules(sz)
+    };
+  } else if ('puzzle_name' in url_params) {
+    board_data = all_boards[url_params['puzzle_name']];
+  } else {
+    board_data = all_boards['original'];
+  }
+  if (board_data['name'] != 'original') {
+    $('.original_solution').hide();
+    $('#puzzle_credit').html("puzzle <b>" + board_data['name'] + "</b> by " + board_data['author']);
+  }
+
   loadData();
+  mid = (board_data.size - 1) / 2;
+  size = board_data.size;
 
   var lines = [];
   var ii, jj;
@@ -276,7 +317,8 @@ function init() {
     var data = board_data[axis][idx];
     //data = styleinner + '_' + idx;
     row.push('<span class="rule_parent ' + styleboth + '"><span class="rule '
-      + styleboth + ' ' + styleinner + '" id="rule_' + axis + '_' + idx + '">' + data + '</span></span>');
+      + styleboth + ' ' + styleinner + '" id="rule_' + axis + '_' + idx
+      + '">'+ruleDisplay(axis, idx)+'</span></span>');
   }
   for (ii = 0; ii <= mid; ++ii) {
     addRule('top', 'x', ii);
@@ -316,6 +358,18 @@ function init() {
   $('.cell').click(onClickCell);
   $('.cell_input').focus(onFocusCell);
   $('#reset').click(reset);
+  if (use_editor) {
+    $('.no_edit').hide();
+    $('#make_link').click(function() {
+      $('#puzzle_link').attr('value', savePuzzle(board_data));
+    });
+  } else {
+    $('.edit').hide();
+    $('.new_parameters').hide();
+    $('#new_puzzle').click(function() {
+      $('.new_parameters').show();
+    });
+  }
   onInputChange();
 }
 
