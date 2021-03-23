@@ -297,10 +297,12 @@ function init() {
     };
   } else if ('puzzle_name' in url_params) {
     board_data = all_boards[url_params['puzzle_name']];
+  } else {
+    board_data = all_boards['original'];
   }
   if (board_data['name'] != 'original') {
     $('.original_solution').hide();
-    $('#custom_puzzle_credit').html("puzzle <b>" + board_data['name'] + "</b> by " + board_data['author'] + "</br>");
+    $('#puzzle_credit').html("puzzle <b>" + board_data['name'] + "</b> by " + board_data['author']);
   }
 
   loadData();
