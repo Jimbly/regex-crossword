@@ -94,12 +94,19 @@ body
   white-space: nowrap;
 }
 
-.match {
+.colorblind .match {
   color: #5D3A9B;
   font-weight: bold;
 }
-.nomatch {
+.colorblind .nomatch {
   color: #E66100;
+}
+.match {
+  color: #484;
+  font-weight: bold;
+}
+.nomatch {
+  color: #F44;
 }
 .highlighted {
   text-decoration: underline;

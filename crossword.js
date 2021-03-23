@@ -15,23 +15,32 @@ function savePuzzle(data) {
     return base_url + "?puzzle=" + puzzle_data;
 }
 
-function loadData() {
-  user_data = undefined;
+function localLoad(key, deflt) {
+  var ret = deflt;
   try {
-    user_data = JSON.parse(localStorage['xword_data_' + board_data.name]);
+    ret = JSON.parse(localStorage[key]);
   } catch (e) {
+    // ignored, use default
   }
+  return ret;
+}
+function localSave(key, value) {
+  try {
+    localStorage[key] = JSON.stringify(value);
+  } catch (e) {
+    // No localstorage
+  }
+}
+
+function loadData() {
+  user_data = localLoad('xword_data_' + board_data.name);
   if (!user_data || !user_data.rows) {
     user_data = { rows: [] };
   }
 }
 
 function saveData() {
-  try {
-    localStorage['xword_data_' + board_data.name] = JSON.stringify(user_data);
-  } catch (e) {
-    // No localstorage
-  }
+  localSave('xword_data_' + board_data.name, user_data);
 }
 
 function rowSize(ii) {
@@ -274,6 +283,21 @@ function blankRules(n) {
   return blanks;
 }
 
+var is_colorblind = false;
+function toggleColorBlind() {
+  is_colorblind = !is_colorblind;
+  localSave('colorblind', is_colorblind);
+  if (is_colorblind) {
+    $('body').addClass('colorblind');
+    $('.mode_normal').hide();
+    $('.mode_colorblind').show();
+  } else {
+    $('body').removeClass('colorblind');
+    $('.mode_normal').show();
+    $('.mode_colorblind').hide();
+  }
+}
+
 function init() {
   for (var name in all_boards) {
     var option = $('<option>', {value: name, text: name});
@@ -310,6 +334,13 @@ function init() {
   } else {
     $('#localstorage').hide();
   }
+  
+  if (localLoad('colorblind')) {
+    toggleColorBlind();
+  } else {
+    $('.mode_colorblind').hide();
+  }
+  $('.colorblind_toggle').click(toggleColorBlind);
 
   loadData();
   mid = (board_data.size - 1) / 2;
