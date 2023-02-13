@@ -55,4 +55,53 @@ all_boards = {
     y: ['(CK|HJ|RA)', '.?[AEH][AKS].?', '(AK|HR|JC)'],
     z: ['(AH|KJ|SA)', '.?[KRS][CHK].?', '(AS|JH|KE)']
   },
+  'colors': {
+    size: 13,
+    author: 'PiggyPig',
+    x: [
+      '.*RED.*'
+      ,'.*BLUE.*'
+      ,'.*BLACK.*'
+      ,'.*VIOLET.*'
+      ,'([^K]|K[^K])*K?'
+      ,'..[RED].*[RED]{3}'
+      ,'.[ORANGE]{4}.{4}[BLUE]{4}'
+      ,'(.)(.)(.)(W|\\1|\\2|\\3)*'
+      ,'..R.{5}[GREEN]*.'
+      ,'[^RGB]*'
+      ,'(...)\\1*.?'
+      ,'[FUCHSIA].W[FUCHSIA].*W'
+      ,'(BLACK|LACK|ACK|CK|K)*'
+    ],
+    y: [
+      '([^T]|TK)*(.)\\2'
+      ,'(.).(.)(\\1|\\2)*.'
+      ,'[COLOR]*'
+      ,'[RAINBOW]*'
+      ,'(WLL[^RED])*[^L]*'
+      ,'T.?[MAGENTA]...[DRY].*'
+      ,'T*PINK.*BLACK.*'
+      ,'(.*)\\1+.?'
+      ,'.?.K[IR]*...'
+      ,'...[^GREY][GREY]*...'
+      ,'[RGB]+[^RGB]R.*'
+      ,'(.)(\\1|RED|BLUE|BLACK)*'
+      ,'[DARK_RED]*'
+    ],
+    z: [
+      '.(..)\\1*(WHITE)*'
+      ,'.*(RED)?R.*RED'
+      ,'[WHITE]*'
+      ,'[BLUE]+([RGB]*[PINK]*){2}'
+      ,'...*[^E]...'
+      ,'.*W.*[IR]{2}..'
+      ,'.[^RED]*'
+      ,'(RED)?.*(BLUE)+.*(GREEN)?'
+      ,'([RT].[RT])+...[PINK]+'
+      ,'.*(WHITE|PINK|BLACK|LIGHT|DARK)'
+      ,'...[OR][AN][GE]...'
+      ,'...[RGBLD]*...'
+      ,'.[LIGHT_BLUE]*...'
+    ],
+  },
 }
