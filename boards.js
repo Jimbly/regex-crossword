@@ -1,4 +1,4 @@
-all_boards = {    
+all_boards = {
   'original': {
     size: 13,
     author: 'Dan Gulotta',
@@ -71,7 +71,7 @@ all_boards = {
       ,'[^RGB]*'
       ,'(...)\\1*.?'
       ,'[FUCHSIA].W[FUCHSIA].*W'
-      ,'(BLACK|LACK|ACK|CK|K)*'
+      ,'(BLACK|LACK|ACK|K)*'
     ],
     y: [
       '([^T]|TK)*(.)\\2'
@@ -79,7 +79,7 @@ all_boards = {
       ,'[COLOR]*'
       ,'[RAINBOW]*'
       ,'(WLL[^RED])*[^L]*'
-      ,'T.?[MAGENTA]...[DRY].*'
+      ,'T.?[PURPLE]...[DRY].*'
       ,'T*PINK.*BLACK.*'
       ,'(.*)\\1+.?'
       ,'.?.K[IR]*...'
