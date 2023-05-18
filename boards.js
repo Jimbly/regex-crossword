@@ -143,7 +143,7 @@ all_boards = {
       '([^IO]|IO)*',
       'F*.[JPEG]*',
       '..(..)\\1+[PROGRAM]*',
-      'A*F*H*[^PARTITION]*',
+      'A*F*H+[^PARTITION]*',
       '.*KEY.*BOARD.*',
       '[MAP]*OF[N][^MAPS]*',
       '(.)(.).*\\2\\1.*\\1.',
