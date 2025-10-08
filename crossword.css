@@ -94,6 +94,12 @@ body
   white-space: nowrap;
 }
 
+.match:not(.leftside)::after {
+  content: " (√)";
+}
+.match.leftside::before {
+  content: "(√) ";
+}
 .colorblind .match {
   color: #5D3A9B;
   font-weight: bold;
@@ -119,3 +125,4 @@ span {
 #debug {
   display: none;
 }
+
