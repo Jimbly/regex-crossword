@@ -229,6 +229,17 @@ function onFocusCell() {
   }
 }
 
+function escapeHtml(text) {
+  var map = {
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#039;'
+  };
+  return text.replace(/[&<>"']/g, function(m) { return map[m]; });
+}
+
 function reset() {
   user_data.rows = [];
   saveData();
@@ -254,7 +265,7 @@ function updateRule(axis, idx, value) {
 
 function ruleInput(axis, idx) {
   var form = '<form action="#" onsubmit="updateRule(\'' + axis + '\', ' + idx + ', rule.value);">'
-  return form + '<input name="rule" value="' + board_data[axis][idx] + '"/></form>';
+  return form + '<input name="rule" value="' + escapeHtml(board_data[axis][idx]) + '"/></form>';
 }
 
 function ruleDisplay(axis, idx) {
@@ -264,7 +275,7 @@ function ruleDisplay(axis, idx) {
     open = '<span ondblclick="editRule(\'' + axis + '\', ' + idx + ');">';
     close = '</span>';
   }
-  return open + board_data[axis][idx] + close;
+  return open + escapeHtml(board_data[axis][idx]) + close;
 }
 
 function getSearchParams(){
@@ -327,7 +338,7 @@ function init() {
   }
   if (board_data['name'] != 'original') {
     $('.original_solution').hide();
-    $('#puzzle_credit').html("puzzle <b>" + board_data['name'] + "</b> by " + board_data['author']);
+    $('#puzzle_credit').html("puzzle <b>" + escapeHtml(board_data['name']) + "</b> by " + escapeHtml(board_data['author']));
   }
   
   if (window.localStorage) {
