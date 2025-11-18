@@ -332,16 +332,19 @@ function init() {
     board_data = all_boards['original'];
   }
   if (board_data['name'] != 'original') {
-    $('.original_solution').hide();
     $('#puzzle_credit').html("puzzle <b>" + escapeHtml(board_data['name']) + "</b> by " + escapeHtml(board_data['author']));
   }
-  
+
+  // set solution link
+  var solutionPath = 'solutions/' + board_data['name'] + '_solution.png';
+  $('#solution_link').attr('href', solutionPath);
+
   if (window.localStorage) {
     $('#nolocalstorage').hide();
   } else {
     $('#localstorage').hide();
   }
-  
+
   if (localLoad('colorblind')) {
     toggleColorBlind();
   } else {
